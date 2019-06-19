@@ -1,4 +1,4 @@
-const keys = [
+const teamMemberIds = [
   1,
   2,
   4,
@@ -7,18 +7,21 @@ const keys = [
   32
 ]
 
-function getPairs() {
-  const permutations = keys.reduce((acc, curr) => {
-    keys.map(k => {
-      if (curr !== k && !acc[curr + k]) {
-        acc[curr + k] = { k1: curr, k2: k }
+function getPairsForCurrentTeamMember(permutations, teamMemberId) {
+    teamMemberIds.map(pairId => {
+      const temp = teamMemberId + pairId
+      if (teamMemberId !== pairId && !permutations.includes(temp)) {
+        permutations.push(temp)
       }
     })
 
-    return acc
-  }, {})
-
-  console.log(Object.keys(permutations).join('\n'))
+    return permutations
 }
 
-getPairs()
+function printAllPairs() {
+  const permutations = teamMemberIds.reduce(getPairsForCurrentTeamMember, [])
+
+  console.log(permutations.sort((a, b) => a > b ? 1 : -1).join('\n'))
+}
+
+printAllPairs()
